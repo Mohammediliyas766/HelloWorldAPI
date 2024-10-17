@@ -1,0 +1,55 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4.2.1
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4.0.1
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Publish
+      run: dotnet publish --configuration Release --no-build --output ./output
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4.4.3
+      with:
+        name: dotnet-app
+        path: ./output
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v4.1.8
+      with:
+        name: dotnet-app
+        path: ./output
+
+    - name: Deploy to Octopus Deploy
+      uses: OctopusDeploy/create-release-and-deploy@v1
+      with:
+        api_key: ${{ secrets.OCTOPUS_API_KEY }}
+        server: ${{ secrets.OCTOPUS_SERVER }}
+        project: 'YourProjectName'
+        release_number: '1.0.${{ github.run_number }}'
+        deploy_to: 'Development'
+        package: './output'
