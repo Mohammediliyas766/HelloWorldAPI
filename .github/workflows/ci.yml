@@ -53,13 +53,6 @@ jobs:
           server: ${{ secrets.OCTOPUS_SERVER }}
           api_key: ${{ secrets.OCTOPUS_API_KEY }}
 
-      - name: Push Package to Octopus Deploy
-        uses: OctopusDeploy/push-package-action@v3.0.4
-        with:
-          packages: './output'
-          overwrite_mode: 'FailIfExists'
-          space: 'Default'
-
       - name: Create Release in Octopus Deploy
         uses: OctopusDeploy/create-release-action@v3.0.5
         with:
