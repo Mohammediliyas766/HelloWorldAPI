@@ -45,7 +45,7 @@ jobs:
         path: ./output
 
     - name: Deploy to Octopus Deploy
-      uses: OctopusDeploy/create-release-and-deploy@v1
+      uses: OctopusDeploy/create-release-action@v3
       with:
         api_key: ${{ secrets.OCTOPUS_API_KEY }}
         server: ${{ secrets.OCTOPUS_SERVER }}
