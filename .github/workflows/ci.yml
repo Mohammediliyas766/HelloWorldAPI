@@ -8,83 +8,71 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4.2.1
+      - name: Checkout code
+        uses: actions/checkout@v4.2.1
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4.0.1
-      with:
-        dotnet-version: '8.0.x'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4.0.1
+        with:
+          dotnet-version: '8.0.x'
 
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
 
-    - name: Publish
-      run: dotnet publish --configuration Release --no-build --output ./output
+      - name: Publish
+        run: dotnet publish --configuration Release --no-build --output ./output
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4.4.3
-      with:
-        name: dotnet-app
-        path: ./output
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4.4.3
+        with:
+          name: dotnet-app
+          path: ./output
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-
     steps:
-    - name: Download artifact
-      uses: actions/download-artifact@v4.1.8
-      with:
-        name: dotnet-app
-        path: ./output
-        
-    - name: Install Octopus CLI
-      uses: OctopusDeploy/install-octopus-cli-action@v3.0.0
-      with:
-        version: 'latest'
+      - name: Download artifact
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: dotnet-app
+          path: ./output
 
-    - name: Login to Octopus Deploy
-      uses: OctopusDeploy/login@v1.0.1
-      with:
-        server: ${{ secrets.OCTOPUS_SERVER }}
-        api_key: ${{ secrets.OCTOPUS_API_KEY }}
+      - name: Install Octopus CLI
+        uses: OctopusDeploy/install-octopus-cli-action@v3.0.0
+        with:
+          version: 'latest'
 
-    - name: Push Package to Octopus Deploy
-      uses: OctopusDeploy/push-package-action@v3.0.4
-      with:
-        packages: './output'
-        overwrite_mode: 'FailIfExists'
-        api_key: ${{ secrets.OCTOPUS_API_KEY }}
-        server: ${{ secrets.OCTOPUS_SERVER }}
-        space: 'Default'
+      - name: Login to Octopus Deploy
+        uses: OctopusDeploy/login@v1.0.1
+        with:
+          server: ${{ secrets.OCTOPUS_SERVER }}
+          api_key: ${{ secrets.OCTOPUS_API_KEY }}
 
-    
-        
-    - name: Create Release in Octopus Deploy
-      uses: OctopusDeploy/create-release-action@v3.0.5
-      with:
-        project: 'MyDotNetApp'
-        release_number: '1.0.${{ github.run_number }}'
-        server: ${{ secrets.OCTOPUS_SERVER }}
-        api_key: ${{ secrets.OCTOPUS_API_KEY }}
-        space: 'Default'
-        packages: |
-          StepName:PackageReferenceName:Version
-          PackageID:Version
+      - name: Push Package to Octopus Deploy
+        uses: OctopusDeploy/push-package-action@v3.0.4
+        with:
+          packages: './output'
+          overwrite_mode: 'FailIfExists'
+          space: 'Default'
 
-    - name: Deploy a Release in Octopus Deploy
-      uses: OctopusDeploy/deploy-release-action@v3.0.4
-      with:
-        project: 'MyDotNetApp'
-        release_number: '1.0.${{ github.run_number }}'
-        environments: |
-          Development
-        server: ${{ secrets.OCTOPUS_SERVER }}
-        api_key: ${{ secrets.OCTOPUS_API_KEY }}
-        space: 'Default'
+      - name: Create Release in Octopus Deploy
+        uses: OctopusDeploy/create-release-action@v3.0.5
+        with:
+          project: 'MyDotNetApp'
+          release_number: '1.0.${{ github.run_number }}'
+          space: 'Default'
+          packages: |
+            MyDotNetApp:1.0.${{ github.run_number }}
+
+      - name: Deploy Release in Octopus Deploy
+        uses: OctopusDeploy/deploy-release-action@v3.0.4
+        with:
+          project: 'MyDotNetApp'
+          release_number: '1.0.${{ github.run_number }}'
+          environments: 'Development'
+          space: 'Default'
