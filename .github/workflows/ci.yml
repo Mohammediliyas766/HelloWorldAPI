@@ -43,13 +43,48 @@ jobs:
       with:
         name: dotnet-app
         path: ./output
-
-    - name: Deploy to Octopus Deploy
-      uses: OctopusDeploy/create-release-action@v3
+        
+    - name: Install Octopus CLI
+      uses: OctopusDeploy/install-octopus-cli-action@v3.0.0
       with:
+        version: 'latest'
+
+    - name: Login to Octopus Deploy
+      uses: OctopusDeploy/login@v1.0.1
+      with:
+        server: ${{ secrets.OCTOPUS_SERVER }}
+        api_key: ${{ secrets.OCTOPUS_API_KEY }}
+
+    - name: Push Package to Octopus Deploy
+      uses: OctopusDeploy/push-package-action@v3.0.4
+      with:
+        packages: './output'
+        overwrite_mode: 'FailIfExists'
         api_key: ${{ secrets.OCTOPUS_API_KEY }}
         server: ${{ secrets.OCTOPUS_SERVER }}
+        space: 'YourSpaceName'
+
+    
+        
+    - name: Create Release in Octopus Deploy
+      uses: OctopusDeploy/create-release-action@v3.0.5
+      with:
         project: 'YourProjectName'
         release_number: '1.0.${{ github.run_number }}'
-        deploy_to: 'Development'
-        package: './output'
+        server: ${{ secrets.OCTOPUS_SERVER }}
+        api_key: ${{ secrets.OCTOPUS_API_KEY }}
+        space: 'YourSpaceName'
+        packages: |
+          StepName:PackageReferenceName:Version
+          PackageID:Version
+
+    - name: Deploy a Release in Octopus Deploy
+      uses: OctopusDeploy/deploy-release-action@v3.0.4
+      with:
+        project: 'YourProjectName'
+        release_number: '1.0.${{ github.run_number }}'
+        environments: |
+          Development
+        server: ${{ secrets.OCTOPUS_SERVER }}
+        api_key: ${{ secrets.OCTOPUS_API_KEY }}
+        space: 'YourSpaceName'
