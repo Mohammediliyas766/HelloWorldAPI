@@ -72,10 +72,10 @@ jobs:
           release_number: '1.0.${{ github.run_number }}'
           space: 'Default'
 
-      - name: Deploy Release in Octopus Deploy
-        uses: OctopusDeploy/deploy-release-action@v3.0.4
-        with:
-          project: 'MyDotNetApp'
-          release_number: '1.0.${{ github.run_number }}'
-          environments: 'Development'
-          space: 'Default'
+      # - name: Deploy Release in Octopus Deploy
+      #   uses: OctopusDeploy/deploy-release-action@v3.0.4
+      #   with:
+      #     project: 'MyDotNetApp'
+      #     release_number: '1.0.${{ github.run_number }}'
+      #     environments: 'Development'
+      #     space: 'Default'
