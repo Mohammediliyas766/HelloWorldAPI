@@ -22,4 +22,3 @@ Create a process to use the release and deploy it to the Development environment
 1. Raise Approval request
 2. Setup Environment
 3. Deploy Application to local machine
-
