@@ -28,7 +28,8 @@ jobs:
           import smtplib
           from email.mime.text import MIMEText
           from email.mime.multipart import MIMEMultipart
-          
+
+        
           # SMTP server configuration
           smtp_server = "$SMTP_SERVER"
           smtp_port = $SMTP_PORT
