@@ -58,19 +58,19 @@ jobs:
           server: ${{ secrets.OCTOPUS_SERVER }}
           api_key: ${{ secrets.OCTOPUS_API_KEY }}
 
-      - name: Push Package to Octopus Deploy
-        uses: OctopusDeploy/push-package-action@v3.0.4
-        with:
-          packages: 'MyDotNetApp.${{ github.run_number }}.zip'
-          overwrite_mode: 'OverwriteExisting'
-          space: 'Default'
+      # - name: Push Package to Octopus Deploy
+      #   uses: OctopusDeploy/push-package-action@v3.0.4
+      #   with:
+      #     packages: 'MyDotNetApp.${{ github.run_number }}.zip'
+      #     overwrite_mode: 'OverwriteExisting'
+      #     space: 'Default'
 
-      - name: Create Release in Octopus Deploy
-        uses: OctopusDeploy/create-release-action@v3.0.5
-        with:
-          project: 'MyDotNetApp'
-          release_number: '1.0.${{ github.run_number }}'
-          space: 'Default'
+      # - name: Create Release in Octopus Deploy
+      #   uses: OctopusDeploy/create-release-action@v3.0.5
+      #   with:
+      #     project: 'MyDotNetApp'
+      #     release_number: '1.0.${{ github.run_number }}'
+      #     space: 'Default'
 
       - name: Deploy Release in Octopus Deploy
         uses: OctopusDeploy/deploy-release-action@v3.0.4
