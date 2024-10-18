@@ -1,0 +1,11 @@
+# Example of setting owners for specific files or directories
+# Lines starting with '#' are comments
+
+# Assign reviewers to the whole repository
+*       @Mohammediliyas766 @RakshithKateel
+
+# Assign reviewers to a specific directory
+# /src/   @username3 @username4
+
+# Assign reviewers to a specific file
+/README.md   @gkara@eg.dk
