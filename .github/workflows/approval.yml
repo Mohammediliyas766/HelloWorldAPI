@@ -17,7 +17,8 @@ jobs:
         env:
           SMTP_SERVER: smtp4dev  # Replace with your SMTP server
           SMTP_PORT: 25  # Change according to your SMTP server settings
-          EMAIL: "rabpo@eg.dk, spooj@eg.dk, gkara@eg.dk"  # Update to the approver's email
+          # EMAIL: "rabpo@eg.dk, spooj@eg.dk, gkara@eg.dk"  # Update to the approver's email
+          EMAIL: "muhammedilyas766@gmail.com"
           SENDER_EMAIL: "noreply@mohil@eg.dk"  # Replace with sender's email
           EMAIL_SUBJECT: "Approval Request for Pull Request"
           EMAIL_BODY: "A new pull request has been created. Please review it."
