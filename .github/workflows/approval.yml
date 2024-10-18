@@ -12,7 +12,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-
       - name: Send email notification
         env:
           SMTP_SERVER: smtp4dev  # Replace with your SMTP server
