@@ -2,10 +2,10 @@
 # Lines starting with '#' are comments
 
 # Assign reviewers to the whole repository
-*       @Mohammediliyas766 @RakshithKateel
+* @Mohammediliyas766 
 
 # Assign reviewers to a specific directory
-# /src/   @username3 @username4
+# /program.cs @RakshithKateel
 
 # Assign reviewers to a specific file
-/README.md   @GA-MA-KA
+/README.md @GA-MA-KA
