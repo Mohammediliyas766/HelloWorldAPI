@@ -47,6 +47,17 @@ jobs:
         with:
           name: dotnet-app
 
+      - name: Download artifact to local
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: dotnet-app
+          path: ./temp-download
+
+      - name: Move artifact to specified folder
+        run: |
+          mkdir -p ./Packages
+          mv ./temp-download/* ./Packages/
+
       - name: Install Octopus CLI
         uses: OctopusDeploy/install-octopus-cli-action@v3.0.0
         with:
