@@ -55,7 +55,7 @@ jobs:
 
       - name: Move artifact to specified folder
         run: |
-          mv ./temp-download/* "C:\Users\mohil\ILIYAS\Courses\Devops\Octopus Deploy"
+          mv ./temp-downloads/* "C:\Users\mohil\ILIYAS\Courses\Devops\Octopus Deploy"
 
       - name: Install Octopus CLI
         uses: OctopusDeploy/install-octopus-cli-action@v3.0.0
