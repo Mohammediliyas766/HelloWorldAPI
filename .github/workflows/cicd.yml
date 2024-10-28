@@ -51,12 +51,11 @@ jobs:
         uses: actions/download-artifact@v4.1.8
         with:
           name: dotnet-app
-          path: ./temp-download
+          path: ./Packages
 
-      - name: Move artifact to specified folder
-        run: |
-          mkdir -p ./Packages
-          mv ./temp-download/* ./Packages/
+      # - name: Move artifact to specified folder
+      #   run: |
+      #     mv ./temp-download/* ./Packages/
 
       - name: Install Octopus CLI
         uses: OctopusDeploy/install-octopus-cli-action@v3.0.0
